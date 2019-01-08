@@ -52,6 +52,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
 public class CreateNewCenterFragment extends MifosBaseFragment
@@ -78,8 +79,6 @@ public class CreateNewCenterFragment extends MifosBaseFragment
     @BindView(R.id.ll_center)
     LinearLayout llCenter;
 
-    @BindView(R.id.layout_submission)
-    LinearLayout layout_submission;
 
     int officeId;
     Boolean result = true;
@@ -90,6 +89,7 @@ public class CreateNewCenterFragment extends MifosBaseFragment
     private DialogFragment newDatePicker;
     private HashMap<String, Integer> officeNameIdHashMap = new HashMap<String, Integer>();
 
+
     public static CreateNewCenterFragment newInstance() {
         CreateNewCenterFragment createNewCenterFragment = new CreateNewCenterFragment();
         return createNewCenterFragment;
@@ -99,14 +99,17 @@ public class CreateNewCenterFragment extends MifosBaseFragment
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MifosBaseActivity) getActivity()).getActivityComponent().inject(this);
+
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_create_new_center, null);
+        rootView = inflater.inflate(R.layout.fragment_create_new_center,container,false);
+         ButterKnife.bind(this, rootView);
 
-        ButterKnife.bind(this, rootView);
         mCreateNewCenterPresenter.attachView(this);
 
         inflateOfficeSpinner();
@@ -117,9 +120,9 @@ public class CreateNewCenterFragment extends MifosBaseFragment
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked) {
-                    layout_submission.setVisibility(View.VISIBLE);
+                    llCenter.setVisibility(View.VISIBLE);
                 } else {
-                    layout_submission.setVisibility(View.GONE);
+                    llCenter.setVisibility(View.GONE);
                 }
 
             }
@@ -148,6 +151,7 @@ public class CreateNewCenterFragment extends MifosBaseFragment
 
         return rootView;
     }
+
 
     //inflating office list spinner
     private void inflateOfficeSpinner() {
